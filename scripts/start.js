@@ -16,6 +16,8 @@ const merge = require('webpack-merge');
 const WebpackDevServer = require('webpack-dev-server');
 const clearConsole = require('react-dev-utils/clearConsole');
 const getProcessForPort = require('react-dev-utils/getProcessForPort');
+const sslocal = require('@pat/sslocal');
+
 const paths = require('../config/paths');
 let config = require('../config/webpack.config.dev');
 const devServerConfig = require('../config/webpackDevServer.config');
@@ -30,7 +32,9 @@ const hasAppConfig = fs.existsSync(paths.appWebpackConfigDev);
 const DEFAULT_PORT = parseInt(process.env.ASSETS_PORT, 10) || 8080;
 
 function run(port) {
-  const protocol = process.env.ASSETS_HTTPS === 'true' ? 'https' : 'http';
+  const protocol = (
+    process.env.ASSETS_HTTPS === 'true' || sslocal.isEnabled(process.env.STAGE)
+   ) ? 'https' : 'http';
   const host = process.env.ASSETS_HOST || 'localhost';
 
   // Merge configurations using webpack-merge default smart strategy

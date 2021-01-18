@@ -2,6 +2,7 @@
 
 const config = require('./webpack.config.dev');
 const paths = require('./paths');
+const sslocal = require('@pat/sslocal');
 
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const host = process.env.HOST || 'localhost';
@@ -39,3 +40,5 @@ module.exports = {
   host: host,
   overlay: false,
 };
+
+sslocal.applyToDevServer(process.env.STAGE, module.exports);

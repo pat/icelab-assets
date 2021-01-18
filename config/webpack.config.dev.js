@@ -10,12 +10,15 @@ const ResolveEntryModulesPlugin = require("resolve-entry-modules-webpack-plugin"
 const atImport = require("postcss-import");
 const postcssURL = require("postcss-url");
 const cssNext = require("postcss-cssnext");
+const sslocal = require("@pat/sslocal");
 const getClientEnvironment = require("./env");
 const paths = require("./paths");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we serve from the full domain we’re booting the app on.
-const protocol = process.env.ASSETS_HTTPS === "true" ? "https" : "http";
+const protocol = (
+  process.env.ASSETS_HTTPS === 'true' || sslocal.isEnabled(process.env.STAGE)
+) ? "https" : "http";
 const host = process.env.ASSETS_HOST || "localhost";
 const port = parseInt(process.env.ASSETS_PORT, 10) || 8080;
 const serverBase = `${protocol}://${host}:${port}`;
